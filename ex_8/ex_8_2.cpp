@@ -126,7 +126,7 @@ int main() {
 
     TCanvas * c2 = new TCanvas("c2","c2",1000,700);
     c2->cd();
-    gPhotonK->SetTitle("Photo-electrons direction");
+    gPhotonK->SetTitle("Photons direction");
     gPhotonK->GetXaxis()->SetTitle("x");
     gPhotonK->GetYaxis()->SetTitle("y");
     gPhotonK->GetZaxis()->SetTitle("z");

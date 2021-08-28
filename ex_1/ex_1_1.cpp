@@ -95,7 +95,7 @@ int main() {
 
     for(int k = 0; k < seeds_minstd.size(); k++){
         cout << (int) k + 1 << ". For the seed = " << seeds_minstd[k] << 
-        ", the length is " << iterations_minstd[k] << " and length/m = " << 
+        ", the length is " << iterations_minstd[k] << " and length/(m-1) = " << 
         (double) iterations_minstd[k]/(max_rng_minstd - 1) << "." << endl;
     }
 

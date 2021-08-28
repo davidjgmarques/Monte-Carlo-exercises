@@ -121,7 +121,7 @@ int main() {
             }
 
             obtained = points_in/N_points;
-            inst_diff = obtained - exact_solution ( exponent[ k ] );\
+            inst_diff = obtained - exact_solution ( exponent[ k ] );
 
             hVar[ k ]->Fill( inst_diff );
         }

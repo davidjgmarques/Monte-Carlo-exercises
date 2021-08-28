@@ -69,7 +69,7 @@ int main() {
     cout << "Period obtained: "<< iteration << "\n";
     cout << "Period expected: 2^30 = "<< (int) pow(2,30);
 
-    cout << "\nTime needed return to the seed: " << (double) (c_end0-c_start0) / CLOCKS_PER_SEC << " seconds." << endl;
+    cout << "\nTime needed to return to the seed: " << (double) (c_end0-c_start0) / CLOCKS_PER_SEC << " seconds." << endl;
 
     /////////////////////////////////////
 

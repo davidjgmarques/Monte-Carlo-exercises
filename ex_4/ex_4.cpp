@@ -158,8 +158,6 @@ int main() {
         }
     }
 
-
-
     double ThreshProb = 80;
     TLine * L_ThreshProb = new TLine(-0.5,ThreshProb,25.5,ThreshProb);
     L_ThreshProb->SetLineColor(kRed);
@@ -206,22 +204,22 @@ int main() {
     c3->SaveAs("Distribution_80_percent.pdf");   
 
 
-    TCanvas * c4 = new TCanvas("c4","c4",1000,700);
-    c4->cd();
-    hDistrNumb->SetLineColor(kAzure-5);
-    hDistrNumb->SetTitle("");
-    hDistrNumb->SetLineWidth(2);
-    hDistrNumb->SetFillStyle(3003);
-    hDistrNumb->SetFillColor(kAzure+5);
-    hDistrNumb->GetYaxis()->SetTitle("Counts");
-    hDistrNumb->GetYaxis()->SetTitleOffset(1.0);
-    hDistrNumb->GetYaxis()->SetTitleSize(0.045);
-    hDistrNumb->GetXaxis()->SetTitleOffset(1.0);
-    hDistrNumb->GetXaxis()->SetTitleSize(0.045);
-    hDistrNumb->GetXaxis()->SetTitle("Dice outcome");
-    hDistrNumb->GetYaxis()->SetRangeUser(0,int((rolls*3/6)+rolls*0.2));
-    hDistrNumb->Draw();  
-    c4->SaveAs("Distribution_numbers_per_die.pdf"); 
+    // TCanvas * c4 = new TCanvas("c4","c4",1000,700);
+    // c4->cd();
+    // hDistrNumb->SetLineColor(kAzure-5);
+    // hDistrNumb->SetTitle("");
+    // hDistrNumb->SetLineWidth(2);
+    // hDistrNumb->SetFillStyle(3003);
+    // hDistrNumb->SetFillColor(kAzure+5);
+    // hDistrNumb->GetYaxis()->SetTitle("Counts");
+    // hDistrNumb->GetYaxis()->SetTitleOffset(1.0);
+    // hDistrNumb->GetYaxis()->SetTitleSize(0.045);
+    // hDistrNumb->GetXaxis()->SetTitleOffset(1.0);
+    // hDistrNumb->GetXaxis()->SetTitleSize(0.045);
+    // hDistrNumb->GetXaxis()->SetTitle("Dice outcome");
+    // hDistrNumb->GetYaxis()->SetRangeUser(0,int((rolls*3/6)+rolls*0.2));
+    // hDistrNumb->Draw();  
+    // c4->SaveAs("Distribution_numbers_per_die.pdf"); 
 
     
     TCanvas * c5 = new TCanvas("c5","c5",1000,700);
