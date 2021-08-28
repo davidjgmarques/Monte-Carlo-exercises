@@ -85,7 +85,7 @@ int main() {
     cout << "Time to create the circle: " << (double) (diff1.count())/1000 << " seconds." << endl;
     cout << "Efficiency: " << (float) n_hits/N << endl;
 
-    ///////////////// Rejection with max efficiency  //////////////////
+    ///////////////// Rejection with max efficiency  /////////////////%/
 
     cout << "\nIf we force the rejection method to have efficiency = 1 , then.." << endl;
 
