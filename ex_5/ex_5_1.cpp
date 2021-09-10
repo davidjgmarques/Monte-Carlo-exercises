@@ -58,7 +58,8 @@ int main() {
 
     double func_val;
     double points_in;
-    double obtained;
+    //double sum;     // avg int
+    double obtained;    // hit-or-miss
     double inst_diff;
     double mean_diff;
 
@@ -75,7 +76,7 @@ int main() {
         hVar[ histogramIT ] = new TH1F("","", 100 , -0.02, 0.02);
         gDiff[ histogramIT ] = new TGraph();
 
-        // could also the the histogram list like this
+        // // could also the the histogram list like this to have them with diff names.
         // ostringstream histogramNameStream;
         // histogramNameStream << "n = " << histogramIT;
         // hVar[ histogramIT ] = new TH1F( histogramNameStream.str().c_str() , "" , 100. ,lim_hist_min, lim_hist_max);
@@ -86,19 +87,22 @@ int main() {
         for (int j = 0; j < N_extr_list.size(); j++){
 
             N_extr = N_extr_list[j];
-            points_in = 0;
+            points_in = 0;      // hit-or-miss
+            //sum = 0;    // avg int
 
             for ( int i = 0; i< N_extr; i++){
                 
                 rng_x = f_rng ( limMin_X, limMax_X );
-                rng_y = f_rng ( limMin_Y, limMax_Y );
+                rng_y = f_rng ( limMin_Y, limMax_Y );   // hit-or-miss
 
                 func_val = func ( rng_x, exponent[ k ]);
       
-                if( rng_y <= func_val ) points_in++; 
+                if( rng_y <= func_val ) points_in++;    // hit-or-miss
+                //sum += func_val;    // avg int
             }
 
-            obtained = points_in/N_extr;
+            obtained = points_in/N_extr;    // hit-or-miss
+            //obtained = 1./N_extr * sum;    // avg int
             inst_diff = abs (obtained - exact_solution ( exponent[ k ] ) );
 
             gDiff[k]->SetPoint ( j, N_extr, inst_diff); 
@@ -109,18 +113,22 @@ int main() {
 
         for (int p = 0; p < N_rep; p++){
 
-            points_in = 0;
+            points_in = 0;      // hit-or-miss
+            //sum = 0;    // avg int
+
             for (int i = 0; i < N_points; i++){
 
                 rng_x = f_rng ( limMin_X, limMax_X );
-                rng_y = f_rng ( limMin_Y, limMax_Y );
+                rng_y = f_rng ( limMin_Y, limMax_Y );   // hit-or-miss
 
                 func_val = func ( rng_x, exponent[ k ]);
       
-                if( rng_y <= func_val ) points_in++;
+                if( rng_y <= func_val ) points_in++;    // hit-or-miss
+                //sum += func_val;    // avg int
             }
 
-            obtained = points_in/N_points;
+            obtained = points_in/N_points;    // hit-or-miss
+            //obtained = 1./N_points * sum;    // avg int
             inst_diff = obtained - exact_solution ( exponent[ k ] );
 
             hVar[ k ]->Fill( inst_diff );

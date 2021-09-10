@@ -13,6 +13,8 @@
 #include "TStyle.h"
 #include "TGraph.h"
 #include "TEllipse.h"
+#include "TMultiGraph.h" 
+#include "TLegend.h" 
 #include "TAxis.h"
 #include "TH1F.h"
 #include "TF1.h"
@@ -31,8 +33,13 @@ int main() {
 
     TGraph * gTarget = new TGraph();
     TEllipse *circle = new TEllipse(0,0,1);
-    TGraph * gDiff = new TGraph();
+
     TGraph * gPiObtained = new TGraph();
+
+    TMultiGraph *gDiff = new TMultiGraph();
+
+    TGraph ** gDiffRun;
+    gDiffRun = new TGraph*[ 3 ];
 
     vector<long double> Ns = {1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9};
     double N;
@@ -52,33 +59,40 @@ int main() {
     double area;
     double diff;
 
+    for ( int r = 0 ; r < 3; r++ ){
 
-    for(int k = 0; k < Ns.size(); k++){
+        gDiffRun[ r ] = new TGraph();
 
-        N = Ns[k];
-        points_in = 0;
+        for(int k = 0; k < Ns.size(); k++){
 
-        for (int i = 0; i < N; i++){
+            N = Ns[k];
+            points_in = 0;
 
-            new_rng_x = f_rng ( limMin, limMax );
-            new_rng_y = f_rng ( limMin, limMax );
+            for (int i = 0; i < N; i++){
 
-            norm = pow (new_rng_x, 2 ) + pow (new_rng_y, 2 );
+                new_rng_x = f_rng ( limMin, limMax );
+                new_rng_y = f_rng ( limMin, limMax );
 
-            if (norm <= pow ( radius, 2 )) points_in++ ;
+                norm = pow (new_rng_x, 2 ) + pow (new_rng_y, 2 );
 
-            if ( k == 2 ) gTarget -> SetPoint ( i, new_rng_x, new_rng_y );
+                if (norm <= pow ( radius, 2 )) points_in++ ;
+
+                if ( r==0 && k == 2 ) gTarget -> SetPoint ( i, new_rng_x, new_rng_y );
+            }
+
+            area = 4 * points_in/N;
+            if ( r == 0) gPiObtained -> SetPoint ( k, N, area );
+
+            diff = abs ( pi - area );
+
+            gDiffRun[r]->SetPoint ( k, N, diff );
+            
+            cout << "N: " << N << "\nand diff: " << diff << endl;
         }
 
-        area = 4 * points_in/N;
-        gPiObtained -> SetPoint ( k, N, area );
-
-        diff = abs ( pi - area );
-        gDiff -> SetPoint ( k, N, diff );
-        
-        cout << "N: " << N << "\nand diff: " << diff << endl;
+        cout << endl; 
     }
-    
+
     //////////////////////////////////////////////  
     
     TCanvas * c1 = new TCanvas("c1","c1",700,700);
@@ -102,12 +116,12 @@ int main() {
 
     TCanvas * c2 = new TCanvas("c2","c2",1000,700);
     c2->cd();
-    gDiff->SetTitle("Difference between #pi_MC and #pi ");
     c2->SetLogx();
     c2->SetLogy();
-    gDiff->SetMarkerStyle(8);
-    gDiff->SetMarkerSize(2);
-    gDiff->SetMarkerColor(kAzure-5);
+    gDiff->Add(gDiffRun[0]);
+    gDiff->Add(gDiffRun[1]);
+    gDiff->Add(gDiffRun[2]);
+    gDiff->SetTitle("Difference between #pi_MC and #pi ");
     gDiff->GetXaxis()->SetTitle("N");
     gDiff->GetXaxis()->SetTitleSize(0.045);
     gDiff->GetXaxis()->SetTitleOffset(1);
@@ -116,7 +130,23 @@ int main() {
     gDiff->GetYaxis()->SetTitleSize(0.045);
     gDiff->GetYaxis()->SetTitleOffset(1);
     gDiff->GetYaxis()->SetRangeUser(1e-7,10);
+
+    gDiffRun[0]->SetMarkerStyle(22);
+    gDiffRun[0]->SetMarkerSize(1.8);
+    gDiffRun[0]->SetMarkerColor(kGray+2);
+    gDiffRun[1]->SetMarkerStyle(33);
+    gDiffRun[1]->SetMarkerSize(2);
+    gDiffRun[1]->SetMarkerColor(kAzure-5);
+    gDiffRun[2]->SetMarkerStyle(8);
+    gDiffRun[2]->SetMarkerSize(1.8);
+    gDiffRun[2]->SetMarkerColor(kRed-3);
     gDiff->Draw("AP");
+
+    auto legend = new TLegend(0.6,0.7,0.88,0.88); // (xi,yi,xf,yf)
+    legend->AddEntry(gDiffRun[0],"Run #1","p");
+    legend->AddEntry(gDiffRun[1],"Run #2","p");
+    legend->AddEntry(gDiffRun[2],"Run #3","p");
+    legend->Draw();
     c2->SaveAs("Difference_in_pi.pdf");
 
 

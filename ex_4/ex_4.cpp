@@ -75,9 +75,9 @@ tuple < int , int > Complete_war ( int initial_attack, int initial_defence ) {
     vector <int> dice_attack;
     vector <int> dice_defence;
 
-    while ( ( attack > 0 ) && ( defence > 0 ) ) {
+    while ( ( attack > 1 ) && ( defence > 0 ) ) {
 
-        dice_attack = throw_n_dice ( min ( 3, attack) );
+        dice_attack = throw_n_dice ( min ( 3, attack - 1 ) );
         dice_defence = throw_n_dice ( min ( 3, defence ) );
 
         tie ( win_attack, lose_attack ) = Single_round ( dice_attack, dice_defence );        
@@ -96,12 +96,12 @@ int main() {
     TApplication *myapp=new TApplication("myapp",0,0);
 
     int nBins1 = 26; 
-    int nBins2 = 9;
+    int nBins2 = 10;
 
     TH1F * hDistrNumb = new TH1F("","",6,0.5,6.5);
     TH1F * hQuickFight = new TH1F("","",6,-1.5,4.5);
     TH1F * hArmiesWon80 = new TH1F("","",nBins1,-0.5,25.5);
-    TH1F * hLeftArmiesWon80 = new TH1F("","",nBins2,-0.5,8.5);
+    TH1F * hLeftArmiesWon80 = new TH1F("","",nBins2,-0.5,9.5);
     TH1F * h6LeftArmiesWon80 = new TH1F("","",nBins1,-0.5,25.5);
 
     vector<int> quick_attack;
@@ -151,7 +151,7 @@ int main() {
                 }
             }
 
-            if ( init_at == 8){
+            if ( init_at == 9){
 
                 hLeftArmiesWon80 -> Fill ( attackers_left );
             }

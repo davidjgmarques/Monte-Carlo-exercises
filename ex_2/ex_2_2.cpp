@@ -40,12 +40,14 @@ int main() {
     double R = 1.;
 
     double n_hits;
+    double n_shot;
     double length;
 
     ///////////////// Analytical //////////////////
 
     time_point<Clock> start0 = Clock::now();
     n_hits = 0;
+    n_shot = 0;
     for (int i = 0; i < N; i++ ){
 
         rgn_1 = f_rng (0,1);
@@ -56,47 +58,30 @@ int main() {
 
         length = pow(x,2) + pow(y,2);
 
+        n_shot++;
+
         if ( length <= pow(R,2) ) n_hits++;
     }
 
     time_point<Clock> end0 = Clock::now();
     milliseconds diff0 = duration_cast<milliseconds>(end0 - start0);
     cout << "* Inversion method *" << endl;
-    cout << "Time to create the circle: " << (double) (diff0.count())/1000 << " seconds." << endl;
-    cout << "Efficiency: " << (double) n_hits/N << endl;
+    cout << "Time to create the circle with 1e8 points: " << (double) (diff0.count())/1000 << " seconds." << endl;
+    cout << "Efficiency (hits/shot): " << (double) n_hits/n_shot << endl;
 
     ///////////////// Rejection  //////////////////
 
-    time_point<Clock> start1 = Clock::now();
-    n_hits = 0;
-    for (int i = 0; i < N; i++){
-
-        x_rej = f_rng ( -1, 1);
-        y_rej = f_rng ( -1, 1);
-
-        length = pow(x_rej,2) + pow(y_rej,2);
-
-        if ( length <= pow (R,2) ) n_hits++;
-    }
-
-    time_point<Clock> end1 = Clock::now();
-    milliseconds diff1 = duration_cast<milliseconds>(end1 - start1);
-    cout << "\n* Rejection method *" << endl;
-    cout << "Time to create the circle: " << (double) (diff1.count())/1000 << " seconds." << endl;
-    cout << "Efficiency: " << (float) n_hits/N << endl;
-
-    ///////////////// Rejection with max efficiency  /////////////////%/
-
-    cout << "\nIf we force the rejection method to have efficiency = 1 , then.." << endl;
-
     time_point<Clock> start2 = Clock::now();
     n_hits = 0;
+    n_shot = 0;
     while(true){
 
         x_rej = f_rng ( -1, 1);
         y_rej = f_rng ( -1, 1);
 
         length = pow(x_rej,2) + pow(y_rej,2);
+
+        n_shot++;
 
         if ( length <= pow (R,2) ) n_hits++;
 
@@ -105,14 +90,15 @@ int main() {
 
     time_point<Clock> end2 = Clock::now();
     milliseconds diff2 = duration_cast<milliseconds>(end2 - start2);
-    cout << "Time to create the circle: " << (double) (diff2.count())/1000 << " seconds." << endl;
-    cout << "Efficiency: " << (float) n_hits/N << endl;
+    cout << "\n* Rejection method *" << endl;
+    cout << "Time to create the circle with 1e8 points: " << (double) (diff2.count())/1000 << " seconds." << endl;
+    cout << "Efficiency (hits/shot): " << (float) n_hits/n_shot << endl;
 
     double v1 = diff0.count();
     double v2 = diff2.count();
 
     double ratio = (v1/v2);
-    cout << "The rejection method is " << ratio << " times faster." << endl;
+    cout << "\nThe rejection method is " << ratio << " times faster." << endl;
 
     return 0;
 }

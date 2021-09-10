@@ -66,7 +66,8 @@ int main() {
     double rng_y;
 
     double func_val;
-    double points_in;
+    double points_in;   // hit-or-miss
+    //double sum;     // avg int
     double integral;
     double diff;
     double max_D;
@@ -82,19 +83,22 @@ int main() {
 
         for (int d = 1; d <= max_D ; d++){
 
-            points_in = 0;
+            points_in = 0;      // hit-or-miss
+            //sum = 0;    // avg int
 
             for (int i = 0; i < N_hits; i++){
 
                 rng_x = f_rng ( limMin_X, limMax_X );
-                rng_y = f_rng ( limMin_Y, limMax_Y );
+                rng_y = f_rng ( limMin_Y, limMax_Y );   // hit-or-miss
 
                 func_val = func ( rng_x );
       
-                if( rng_y <= func_val ) points_in++; 
+                if( rng_y <= func_val ) points_in++;    // hit-or-miss
+                //sum += func_val;    // avg int
             }
 
-            integral *= (points_in/N_hits * (limMax_X - limMin_X) * (limMax_Y - limMin_Y));       
+            integral *= ( points_in/N_hits * (limMax_X - limMin_X) * (limMax_Y - limMin_Y) );   // hit-or-miss
+            //integral *= 1./N_hits * sum;    // avg int  
         }
 
         diff = abs(integral - exact_solution(max_D));
@@ -172,7 +176,7 @@ int main() {
 
     gDiff->Draw("AP");
 
-    auto legend = new TLegend(0.1,0.7,0.48,0.9);
+    auto legend = new TLegend(0.5,0.18,0.88,0.4);
     legend->AddEntry(gDiff_MC,"Monte Carlo","p");
     legend->AddEntry(gDiff_MPS,"Middle point summation","p");
     legend->Draw();

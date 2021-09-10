@@ -31,7 +31,7 @@ int main() {
     gStyle->SetOptStat(11);
     gStyle->SetOptFit(1111);
 
-    TH1F * hUncert_100 = new TH1F("","",38,2.3,3.9);
+    TH1F * hUncert_100 = new TH1F("","",38,2.3,3.9);//38
     TH1F * hUncert_1000 = new TH1F("","",100,2.8,3.6);
     TH1F * hUncert_5000 = new TH1F("","",100,3.0,3.3);
 
